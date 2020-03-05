@@ -19,12 +19,14 @@ short BrithdayRecord::setSolar(short year, short month, short day){
     this->solar[0] = year;
     this->solar[1] = month;
     this->solar[2] = day;
+    return 0;
 }
 
 short BrithdayRecord::setLunar(short year, short month, short day){
     this->lunar[0] = year;
     this->lunar[1] = month;
     this->lunar[2] = day;
+    return 0;
 }
 
 short BrithdayRecord::setRemark(std::string remark){
@@ -34,14 +36,30 @@ short BrithdayRecord::setRemark(std::string remark){
     for (int i=0; i<remark.size(); i++){
         this->remark[i] = remark[i];
     }
+    return 0;
 }
 
-std::ostream &operator<<(std::ostream &os, BrithdayRecord &br){
-    os << "Info of " << br.name;
-    os << "\nSolar Birthday: " << br.solar[0] << "/" << br.solar[1] << "/" << br.solar[2];
-    os << "\nLunar Birthday: " << br.lunar[0] << "/" << br.lunar[1] << "/" << br.lunar[2] << '\n';
-    if (br.remark[0]){
-        os << br.remark << '\n';
+std::string BrithdayRecord::info(){
+    std::string res = "Info of " + (std::string)name;
+    res += ("\nSolar Birthday: "+i2s(solar[0])+"/"+i2s(solar[1])+"/"+i2s(solar[2]));
+    res += ("\nLunar Birthday: "+i2s(lunar[0])+"/"+i2s(lunar[1])+"/"+i2s(lunar[2])+"\n");
+    if (remark[0]){
+        res += ("Remarks: "+(std::string)remark+"\n");
     }
-    return os;
+    return res;
+}
+
+std::string BrithdayRecord::i2s(int i){
+    std::string res = "";
+    bool flag = 0;
+    if (i<0){
+        flag = 1;
+        i = -i;
+    }
+    res = (char)('0'+i%10) + res;
+    while(i/10){
+        i /= 10;
+        res = (char)('0'+i%10) + res;
+    }
+    return flag>0?"-"+res:res;
 }

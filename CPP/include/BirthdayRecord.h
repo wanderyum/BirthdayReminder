@@ -10,7 +10,6 @@
 #define NAME_MAX 30
 #define REMARK_MAX 100
 #include <string>
-#include <iostream>
 
 class BrithdayRecord{
 public:
@@ -21,11 +20,13 @@ public:
     short setSolar(short year, short month, short day);
     short setLunar(short year, short month, short day);
     short setRemark(std::string remark);
-    friend std::ostream &operator<<(std::ostream &os, BrithdayRecord &br);
+    std::string info();
     
-	char name[NAME_MAX]={0};        // 姓名
-	short solar[3];                 // 公历生日
-	short lunar[3];                 // 农历生日
-	char remark[REMARK_MAX]={0};    // 备注
+    char name[NAME_MAX]={0};        // 姓名
+    short solar[3];                 // 公历生日
+    short lunar[3];                 // 农历生日
+    char remark[REMARK_MAX]={0};    // 备注
+private:
+    std::string i2s(int i);
 };
 #endif
