@@ -1,6 +1,12 @@
 #include "../include/BirthdayRecord.h"
+#include <ctime>
 
 BrithdayRecord::BrithdayRecord(){
+    which = 's';
+}
+BrithdayRecord::BrithdayRecord(std::string name){
+    BrithdayRecord();
+    setName(name);
 }
 BrithdayRecord::~BrithdayRecord(){
 }
@@ -39,6 +45,35 @@ short BrithdayRecord::setRemark(std::string remark){
     return 0;
 }
 
+bool BrithdayRecord::isSolarBirthday(short month, short day){
+    if (solar[1] == month && solar[2] == day) return true;
+    else return false;
+}
+
+bool BrithdayRecord::isLunarBirthday(short month, short day){
+    if (lunar[1] == month && lunar[2] == day) return true;
+    else return false;
+}
+
+char BrithdayRecord::isBirthday(short year, short month, short day){
+    if (which == 's' || which == 'b'){
+        if (isSolarBirthday(month, day)) return 's';
+    }
+    return 'n';
+}
+
+std::string BrithdayRecord::checkToday(){
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    short solar_year = 1900+ltm->tm_year;
+    short solar_month = 1+ltm->tm_mon;
+    short solar_day = ltm->tm_mday;
+    if (isBirthday(solar_year, solar_month, solar_day) == 's'){
+        std::string res = "今天是"+(std::string)name+"的生日: 公历"+i2s(solar[1])
+    }
+    else return "";
+}
+
 std::string BrithdayRecord::info(){
     std::string res = "Info of " + (std::string)name;
     res += ("\nSolar Birthday: "+i2s(solar[0])+"/"+i2s(solar[1])+"/"+i2s(solar[2]));
@@ -50,16 +85,25 @@ std::string BrithdayRecord::info(){
 }
 
 std::string BrithdayRecord::i2s(int i){
-    std::string res = "";
+    char charArr[12] = {0};
     bool flag = 0;
     if (i<0){
         flag = 1;
         i = -i;
     }
-    res = (char)('0'+i%10) + res;
-    while(i/10){
-        i /= 10;
-        res = (char)('0'+i%10) + res;
+    short si;
+    for (si=10; si>0; si--){
+        charArr[si] = '0' + i%10;
+        if (i/10){
+            i /= 10;
+        }
+        else{
+            si--;
+            break;
+        }
     }
-    return flag>0?"-"+res:res;
+    if (flag>0) charArr[si] = '-';
+    else si++;
+    std::string res = charArr+si;
+    return res;
 }
