@@ -69,9 +69,14 @@ std::string BrithdayRecord::checkToday(){
     short solar_month = 1+ltm->tm_mon;
     short solar_day = ltm->tm_mday;
     if (isBirthday(solar_year, solar_month, solar_day) == 's'){
-        std::string res = "今天是"+(std::string)name+"的生日: 公历"+i2s(solar[1])
+        std::string res = "今天是"+(std::string)name+"的生日: 公历"+i2s(solar[1])+"月"+i2s(solar[2])+"日";
+        return res;
     }
-    else return "";
+    else {
+        std::string res;
+        //res = "今天是"+i2s(solar_year)+"年"+i2s(solar_month)+"月"+i2s(solar_day)+"日";
+        return res;
+    }
 }
 
 std::string BrithdayRecord::info(){

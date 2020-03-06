@@ -20,6 +20,7 @@ public:
     char remark[REMARK_MAX]={0};    // 备注
     
     BrithdayRecord();
+    BrithdayRecord(std::string name);
     ~BrithdayRecord();
     
     short setName(std::string name);
